@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: backend
-    labels:
-        app: backend
+    name: backend-deployment
 spec:
     replicas: 1
     selector:
@@ -14,6 +12,7 @@ spec:
             labels:
                 app: backend
         spec:
+            limits:
             containers:
                 - name: backend
                   image: yoshiunfriendly/backend-hideyoshi.com
@@ -67,10 +66,10 @@ apiVersion: v1
 kind: Service
 metadata:
     name: backend-service
+    namespace: portfolio
 spec:
-    ports:
-        - protocol: TCP
-          port: 8070
-          targetPort: 8070
     selector:
         app: backend
+    ports:
+        - port: 8070
+    type: ClusterIP

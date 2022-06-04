@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: frontend
+    name: frontend-deployment
     labels:
         app: frontend
 spec:
@@ -24,22 +24,23 @@ spec:
                       - name: PORT
                         value: "5000"
 
-                      - name: BACKEND
+                      - name: BACKEND_URL
                         valueFrom:
                             configMapKeyRef:
                                 name: backend-config
                                 key: backend-url
+
+                      - name: BACKEND
+                        value: "$(BACKEND_SERVICE_PORT)"
 ---
 apiVersion: v1
 kind: Service
 metadata:
     name: frontend-service
+    namespace: portfolio
 spec:
-    type: NodePort
-    ports:
-        - protocol: TCP
-          port: 5000
-          targetPort: 5000
-          nodePort: 30100
     selector:
         app: frontend
+    ports:
+        - port: 5000
+    type: ClusterIP
