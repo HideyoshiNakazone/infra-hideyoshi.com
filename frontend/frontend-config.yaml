@@ -4,4 +4,5 @@ metadata:
     name: frontend-config
 data:
     frontend-url: frontend-service
+    backend-url: /api
     frontend-type: unsecure

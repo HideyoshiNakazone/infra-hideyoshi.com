@@ -24,23 +24,22 @@ spec:
                       - name: PORT
                         value: "5000"
 
-                      - name: BACKEND_URL
+                      - name: BACKEND
                         valueFrom:
                             configMapKeyRef:
-                                name: backend-config
+                                name: frontend-config
                                 key: backend-url
 
-                      - name: BACKEND
-                        value: "$(BACKEND_SERVICE_PORT)"
 ---
 apiVersion: v1
 kind: Service
 metadata:
     name: frontend-service
-    namespace: portfolio
 spec:
     selector:
         app: frontend
     ports:
         - port: 5000
+          protocol: TCP
+          targetPort: 5000
     type: ClusterIP
