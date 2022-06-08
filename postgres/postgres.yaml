@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+    namespace: portfolio 
     name: postgres-deployment
 spec:
     replicas: 1
@@ -33,6 +34,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+    namespace: portfolio 
     name: postgres-service
 spec:
     selector:
