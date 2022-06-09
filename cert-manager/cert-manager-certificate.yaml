@@ -2,14 +2,14 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
     name: letsencrypt-cluster-certificate
-    namespace: cert-manager
+    namespace: default
 spec:
     dnsNames:
         - hideyoshi.com.br
         - api.hideyoshi.com.br
         - www.hideyoshi.com.br
         - www.api.hideyoshi.com.br
-    secretName: certificate-tls
+    secretName: letsencrypt-cluster-certificate-tls
     issuerRef:
         name: letsencrypt-cluster-issuer
         kind: ClusterIssuer

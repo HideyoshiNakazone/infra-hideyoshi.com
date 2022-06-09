@@ -12,7 +12,7 @@ spec:
         - hosts:
           - hideyoshi.com.br
           - api.hideyoshi.com.br
-          secretName: certificate-tls
+          secretName: letsencrypt-cluster-certificate-tls
     rules:
         - host: hideyoshi.com.br
           http:

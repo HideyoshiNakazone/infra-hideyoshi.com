@@ -11,7 +11,7 @@ spec:
     tls:
         - hosts:
           - hideyoshi.com.br
-          secretName: certificate-tls
+          secretName: letsencrypt-cluster-certificate-tls
     rules:
         - host: hideyoshi.com.br
           http:

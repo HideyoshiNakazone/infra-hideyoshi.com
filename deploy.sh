@@ -8,9 +8,10 @@ kubectl apply -f ./nginx-ingress/nginx-ingress.yaml
 
 kubectl apply -f ./cert-manager/cert-manager.yaml
 kubectl apply -f ./cert-manager/cert-manager-issuer.yaml
-kubectl apply -f ./cert-manager/cert-manager-certificate.yaml
 
 kubectl apply -f ./portfolio-namespace.yaml
+
+kubectl apply -f ./cert-manager/cert-manager-certificate.yaml
 
 kubectl apply -f ./postgres
 kubectl apply -f ./frontend
