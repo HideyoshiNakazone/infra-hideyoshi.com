@@ -16,8 +16,5 @@ kubectl apply -f ./postgres
 kubectl apply -f ./frontend
 kubectl apply -f ./backend
 
-kubectl apply -f ./cert-manager/cert-manager.yaml
-kubectl apply -f ./cert-manager/cert-manager-issuer.yaml
-
 kubectl apply -f ./nginx-ingress/nginx-ingress-root.yaml
 kubectl apply -f ./nginx-ingress/nginx-ingress-api.yaml
