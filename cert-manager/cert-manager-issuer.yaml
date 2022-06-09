@@ -8,7 +8,7 @@ spec:
         server: https://acme-v02.api.letsencrypt.org/directory
         email: vitor.h.n.batista@gmail.com
         privateKeySecretRef:
-            name: letsencrypt-tls-secret
+            name: letsencrypt-cluster-issuer
         solvers:
             - http01:
                   ingress:
