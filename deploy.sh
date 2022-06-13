@@ -58,7 +58,7 @@ function main {
         
         application_deploy
 
-        echo "http://$(/usr/bin/minikube ip);
+        echo "http://$(/usr/bin/minikube ip)";
 
     else
 
