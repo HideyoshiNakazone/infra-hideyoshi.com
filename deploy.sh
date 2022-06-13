@@ -19,7 +19,7 @@ function application_deploy {
     kubectl apply -f \
         ./cert-manager/cert-manager-certificate.yaml;
 
-    /usr/bin/kubectl apply -f ./postgres;
+    kubectl apply -f ./postgres;
     kubectl wait --for=condition=available \
         --timeout=600s \
         deployment.apps/postgres-deployment \
