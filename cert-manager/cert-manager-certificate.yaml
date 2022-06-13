@@ -11,5 +11,8 @@ spec:
         - www.api.hideyoshi.com.br
     secretName: letsencrypt-cluster-certificate-tls
     issuerRef:
-        name: letsencrypt-cluster-issuer
+        name: cluster-certificate-issuer
         kind: ClusterIssuer
+    subject:
+        organizations:
+            - Hideyoshi
