@@ -60,6 +60,23 @@ function main {
 
         /usr/bin/minikube ip;
 
+    elif [[ $1 == "--staging" || $1 == "-s" ]]; then
+
+        export INSTALL_K3S_EXEC="--no-deploy traefik";
+        curl -sfL https://get.k3s.io | sh -s -;
+        sudo chmod 644 /etc/rancher/k3s/k3s.yaml;
+
+        /usr/bin/kubectl apply -f ./nginx-ingress/nginx-ingress.yaml;
+        /usr/bin/kubectl wait --namespace ingress-nginx \
+        --for=condition=ready pod \
+        --selector=app.kubernetes.io/component=controller \
+        --timeout=120s;
+
+        start_cert_manager
+        /usr/bin/kubectl apply -f ./cert-manager/cert-manager-issuer-staging.yaml;
+
+        application_deploy
+
     else
 
         export INSTALL_K3S_EXEC="--no-deploy traefik";
@@ -73,7 +90,7 @@ function main {
         --timeout=120s;
 
         start_cert_manager
-        /usr/bin/kubectl apply -f ./cert-manager/cert-manager-issuer.yaml;
+        /usr/bin/kubectl apply -f ./cert-manager/cert-manager-issuer-prod.yaml;
 
         application_deploy
 
