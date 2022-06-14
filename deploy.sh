@@ -2,8 +2,8 @@
 
 function start_cert_manager {
 
-    /usr/bin/kubectl apply -f ./cert-manager/cert-manager.yaml;
-    /usr/bin/kubectl wait --for=condition=available \
+    kubectl apply -f ./cert-manager/cert-manager.yaml;
+    kubectl wait --for=condition=available \
         --timeout=600s \
         deployment.apps/cert-manager \
         deployment.apps/cert-manager-cainjector \
@@ -14,32 +14,32 @@ function start_cert_manager {
 
 function application_deploy {
 
-    /usr/bin/kubectl apply -f ./portfolio-namespace.yaml;
+    kubectl apply -f ./portfolio-namespace.yaml;
 
-    /usr/bin/kubectl apply -f \
+    kubectl apply -f \
         ./cert-manager/cert-manager-certificate.yaml;
 
-    /usr/bin/kubectl apply -f ./postgres;
-    /usr/bin/kubectl wait --for=condition=available \
+    kubectl apply -f ./postgres;
+    kubectl wait --for=condition=available \
         --timeout=600s \
         deployment.apps/postgres-deployment \
         -n portfolio;
 
-    /usr/bin/kubectl apply -f ./frontend;
-    /usr/bin/kubectl wait --for=condition=available \
+    kubectl apply -f ./frontend;
+    kubectl wait --for=condition=available \
         --timeout=600s \
         deployment.apps/frontend-deployment \
         -n portfolio;
 
-    /usr/bin/kubectl apply -f ./backend;
-    /usr/bin/kubectl wait --for=condition=available \
+    kubectl apply -f ./backend;
+    kubectl wait --for=condition=available \
         --timeout=600s \
         deployment.apps/backend-deployment \
         -n portfolio;
 
-    /usr/bin/kubectl apply -f \
+    kubectl apply -f \
         ./nginx-ingress/nginx-ingress-root.yaml;
-    /usr/bin/kubectl apply -f \
+    kubectl apply -f \
         ./nginx-ingress/nginx-ingress-api.yaml;
 
 }
@@ -48,17 +48,17 @@ function main {
 
     if [[ $1 == "--test" || $1 == "-t" ]]; then
 
-        /usr/bin/minikube start --driver kvm2;
-        /usr/bin/minikube addons enable ingress;
+        minikube start --driver kvm2;
+        minikube addons enable ingress;
         
         start_cert_manager
 
-        /usr/bin/kubectl apply -f \
+        kubectl apply -f \
             ./cert-manager/cert-manager-issuer-dev.yaml;
         
         application_deploy
 
-        /usr/bin/minikube ip;
+        echo "http://$(/usr/bin/minikube ip)";
 
     elif [[ $1 == "--staging" || $1 == "-s" ]]; then
 
@@ -66,14 +66,14 @@ function main {
         curl -sfL https://get.k3s.io | sh -s -;
         sudo chmod 644 /etc/rancher/k3s/k3s.yaml;
 
-        /usr/bin/kubectl apply -f ./nginx-ingress/nginx-ingress.yaml;
-        /usr/bin/kubectl wait --namespace ingress-nginx \
+        kubectl apply -f ./nginx-ingress/nginx-ingress.yaml;
+        kubectl wait --namespace ingress-nginx \
         --for=condition=ready pod \
         --selector=app.kubernetes.io/component=controller \
         --timeout=120s;
 
         start_cert_manager
-        /usr/bin/kubectl apply -f ./cert-manager/cert-manager-issuer-staging.yaml;
+        kubectl apply -f ./cert-manager/cert-manager-issuer-staging.yaml;
 
         application_deploy
 
@@ -83,14 +83,14 @@ function main {
         curl -sfL https://get.k3s.io | sh -s -;
         sudo chmod 644 /etc/rancher/k3s/k3s.yaml;
 
-        /usr/bin/kubectl apply -f ./nginx-ingress/nginx-ingress.yaml;
-        /usr/bin/kubectl wait --namespace ingress-nginx \
+        kubectl apply -f ./nginx-ingress/nginx-ingress.yaml;
+        kubectl wait --namespace ingress-nginx \
         --for=condition=ready pod \
         --selector=app.kubernetes.io/component=controller \
         --timeout=120s;
 
         start_cert_manager
-        /usr/bin/kubectl apply -f ./cert-manager/cert-manager-issuer-prod.yaml;
+        kubectl apply -f ./cert-manager/cert-manager-issuer-prod.yaml;
 
         application_deploy
 

@@ -4,7 +4,7 @@ metadata:
     name: cluster-certificate-issuer
 spec:
     acme:
-        server: https://acme-staging-v02.api.letsencrypt.org/directory
+        server: https://acme-v02.api.letsencrypt.org/directory
         email: vitor.h.n.batista@gmail.com
         privateKeySecretRef:
             name: cluster-certificate-issuer-key
