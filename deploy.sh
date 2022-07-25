@@ -47,8 +47,12 @@ function application_deploy {
 function main {
 
     if [[ $1 == "--test" || $1 == "-t" ]]; then
+    
+        function kubectl {
+            minikube kubectl -- $@
+        }
 
-        minikube start --driver kvm2;
+        minikube start --driver docker;
         minikube addons enable ingress;
         
         start_cert_manager
@@ -58,7 +62,7 @@ function main {
         
         application_deploy
 
-        echo "http://$(/usr/bin/minikube ip)";
+        echo "http://$(/usr/local/bin/minikube ip)";
 
     elif [[ $1 == "--staging" || $1 == "-s" ]]; then
 
